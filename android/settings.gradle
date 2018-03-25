@@ -1,0 +1,3 @@
+rootProject.name = 'SnackBar'
+
+include ':app'
