@@ -8,45 +8,28 @@ import React, {Component} from 'react';
 import {
   StyleSheet,
   Animated,
-  PanResponder
+  PanResponder, View, Button
 } from 'react-native';
+import SnackBar from "./app/SnackBar";
+import {SnackBarTime} from "./app/util";
 
 
 export default class App extends Component<Props> {
-  constructor() {
-    super();
-    this.state = {
-      pan: new Animated.ValueXY({x: 0, y: -200}),
-    };
-    // Add a listener for the delta value change
-    this._val = {x: 0, y: 0};
-    this.state.pan.addListener((value) => this._val = value);
 
-    // Initialize PanResponder with move handling
-    this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (e, gesture) => true,
-      onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x}
-      ]),
-      // adjusting delta value
-      onPanResponderRelease: (e, gesture) => {
-        Animated.spring(this.state.pan, {
-          toValue: { x: 0, y: 0 },
-          friction: 2
-        }).start();
-      }
-    });
+  toggleSnackBar = () => {
+    this.ele.show({duration: SnackBarTime.INDEFINITE});
   }
 
   render() {
     const panStyle = {
       transform: this.state.pan.getTranslateTransform()
     };
+
     return (
-      <Animated.View
-        {...this.panResponder.panHandlers}
-        style={[panStyle, styles.circle]}
-      />
+      <View>
+        <Button title={"Click"} onPress={this.toggleSnackBar}/>
+        <SnackBar onRef={ele => this.ele = ele}/>
+      </View>
     );
   }
 }

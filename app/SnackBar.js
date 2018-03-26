@@ -4,7 +4,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   Animated,
-  StyleSheet
+  StyleSheet, PanResponder
 } from 'react-native';
 import {SnackBarTime} from './util';
 
@@ -13,17 +13,37 @@ export default class SnackBar extends Component {
   constructor() {
     super();
     this.state = {
-      offsetY: new Animated.Value(800),
+      transform: new Animated.ValueXY({x: 0, y: 800}),
       active: false
     };
+
+    this._val = {x: 0, y: 0};
+    this.state.transform.addListener((value) => this._val = value);
+
+    // Initialize PanResponder with move handling
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (e, gesture) => true,
+      onPanResponderMove: Animated.event([
+        null, {dx: this.state.transform.x}
+      ]),
+      // adjusting delta value
+      onPanResponderRelease: (e, gesture) => {
+        Animated.spring(this.state.transform, {
+          toValue: { x: 0, y: 0 },
+          friction: 2
+        }).start();
+      }
+    });
   }
 
   componentDidMount() {
     this.props.onRef(this);
+
   }
 
   componentWillUnmount() {
     this.props.onRef(undefined);
+    this.state.transform.removeAllListeners();
   }
 
   show({ duration, title, action, onAction }) {
@@ -31,8 +51,8 @@ export default class SnackBar extends Component {
 
     this.setState({title, action, onAction, active: true});
     Animated.timing(
-      this.state.offsetY, {
-        toValue: 0,
+      this.state.transform, {
+        toValue: {x: 0, y: 0},
         duration: 300,
       }
     ).start(({finished}) => {
@@ -46,8 +66,8 @@ export default class SnackBar extends Component {
     if (!this.props.onRef) return;
 
     Animated.timing(
-      this.state.offsetY, {
-        toValue: 800,
+      this.state.transform, {
+        toValue: {x: 0, y: 800},
         duration: 300,
       }
     ).start(() => this.setState({active: false}));
@@ -70,10 +90,10 @@ export default class SnackBar extends Component {
     }
 
     return (
-      <Animated.View style={[styles.snackBar, {transform: [{translateY: this.state.offsetY}]}]}>
-        <Text style={[styles.title, {marginBottom: action? 0 : 16}]}>{title}</Text>
-        {actionLayout}
-      </Animated.View>
+      <Animated.View
+        {...this.panResponder.panHandlers}
+        style={[{transform: this.state.transform.getTranslateTransform()}, styles.circle]}
+      />
     );
   }
 }
@@ -83,7 +103,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: 'white',
+    height: 45,
+    backgroundColor: 'black',
     justifyContent: 'center',
     shadowColor: '#000000',
     shadowOffset: {
@@ -113,5 +134,23 @@ const styles = StyleSheet.create({
     color: '#1f7ae0',
     fontWeight: 'bold',
     fontSize: 14
+  },
+  circle: {
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    position: 'absolute',
+    shadowRadius: 4,
+    shadowOpacity: 0.2,
+    borderTopWidth: 2,
+    borderTopColor: 'red',
+    height: 100
   }
 });
