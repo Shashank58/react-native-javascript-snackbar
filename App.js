@@ -16,7 +16,7 @@ export default class App extends Component<Props> {
   constructor() {
     super();
     this.state = {
-      pan: new Animated.ValueXY()
+      pan: new Animated.ValueXY({x: 0, y: -200}),
     };
     // Add a listener for the delta value change
     this._val = {x: 0, y: 0};
@@ -26,20 +26,16 @@ export default class App extends Component<Props> {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gesture) => true,
       onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x, dy: this.state.pan.y}
+        null, {dx: this.state.pan.x}
       ]),
       // adjusting delta value
       onPanResponderRelease: (e, gesture) => {
         Animated.spring(this.state.pan, {
           toValue: { x: 0, y: 0 },
-          friction: 5
+          friction: 2
         }).start();
       }
     });
-  }
-
-  componentWillMount() {
-
   }
 
   render() {
@@ -49,13 +45,12 @@ export default class App extends Component<Props> {
     return (
       <Animated.View
         {...this.panResponder.panHandlers}
-        style={[panStyle, styles.circle, ]}
+        style={[panStyle, styles.circle]}
       />
     );
   }
 }
 
-const CIRCLE_RADIUS = 30;
 const styles = StyleSheet.create({
   circle: {
     bottom: 0,
