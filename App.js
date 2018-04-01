@@ -17,17 +17,17 @@ import {SnackBarTime} from "./app/util";
 export default class App extends Component<Props> {
 
   toggleSnackBar = () => {
-    this.ele.show({duration: SnackBarTime.INDEFINITE});
-  }
+    if (this.ele.isActive()) {
+      this.ele.show({duration: SnackBarTime.INDEFINITE});
+    } else {
+      this.ele.dismiss();
+    }
+  };
 
   render() {
-    const panStyle = {
-      transform: this.state.pan.getTranslateTransform()
-    };
-
     return (
-      <View>
-        <Button title={"Click"} onPress={this.toggleSnackBar}/>
+      <View style={{flex: 1}}>
+        <Button title={"Click"} style={{bottom: 0}} onPress={this.toggleSnackBar}/>
         <SnackBar onRef={ele => this.ele = ele}/>
       </View>
     );

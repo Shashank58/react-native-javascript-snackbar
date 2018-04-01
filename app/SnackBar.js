@@ -38,8 +38,9 @@ export default class SnackBar extends Component {
 
   componentDidMount() {
     this.props.onRef(this);
-
   }
+
+  isActive = () => this.state.active;
 
   componentWillUnmount() {
     this.props.onRef(undefined);
