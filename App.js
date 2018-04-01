@@ -7,8 +7,8 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  Animated,
-  PanResponder, View, Button
+  View,
+  Button
 } from 'react-native';
 import SnackBar from "./app/SnackBar";
 import {SnackBarTime} from "./app/util";
@@ -18,9 +18,9 @@ export default class App extends Component<Props> {
 
   toggleSnackBar = () => {
     if (this.ele.isActive()) {
-      this.ele.show({duration: SnackBarTime.INDEFINITE});
-    } else {
       this.ele.dismiss();
+    } else {
+      this.ele.show({duration: SnackBarTime.INDEFINITE});
     }
   };
 

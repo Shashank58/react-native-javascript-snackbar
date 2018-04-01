@@ -4,9 +4,17 @@ import {
   Text,
   TouchableWithoutFeedback,
   Animated,
-  StyleSheet, PanResponder
+  StyleSheet,
+  PanResponder,
+  Dimensions
 } from 'react-native';
 import {SnackBarTime} from './util';
+
+const Screen = {
+  width: Dimensions.get('window').width,
+  height: Dimensions.get('window').height
+};
+
 
 export default class SnackBar extends Component {
 
@@ -28,12 +36,18 @@ export default class SnackBar extends Component {
       ]),
       // adjusting delta value
       onPanResponderRelease: (e, gesture) => {
+        let position = {x: 0, y: 0};
+        if (gesture.moveX > Screen.width / 1.5) {
+          position.x = Screen.width + 100;
+        }
+        
         Animated.spring(this.state.transform, {
-          toValue: { x: 0, y: 0 },
-          friction: 2
+          toValue: position,
+          friction: 4
         }).start();
       }
     });
+    console.log(Screen.width);
   }
 
   componentDidMount() {
@@ -54,7 +68,7 @@ export default class SnackBar extends Component {
     Animated.timing(
       this.state.transform, {
         toValue: {x: 0, y: 0},
-        duration: 300,
+        duration: 400,
       }
     ).start(({finished}) => {
       if (finished && duration !== SnackBarTime.INDEFINITE) {
