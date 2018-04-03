@@ -1,9 +1,8 @@
 {
   "name": "SnackBar",
-  "version": "0.0.1",
-  "private": true,
+  "version": "1.0.0",
+  "main": "/app/SnackBar.js",
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
   "dependencies": {
@@ -11,6 +10,17 @@
     "react": "16.3.0-alpha.1",
     "react-native": "0.52.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shashank58/react-native-snackbar.git"
+  },
+  "keywords": [
+    "snackbar",
+    "react-native",
+    "ios",
+    "android",
+    "javascript"
+  ],
   "devDependencies": {
     "babel-jest": "22.4.1",
     "babel-preset-react-native": "4.0.0",
@@ -19,5 +29,6 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "author": "Shashank Udupa"
 }

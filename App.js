@@ -28,6 +28,9 @@ export default class App extends Component<Props> {
           onRef={ele => this.ele = ele}
           message={"This is a simple test"}
           action={"COOL"}
+          messageStyles={{color: "green"}}
+          actionTextStyles={{fontSize: 16}}
+          onAction={() => {console.log("Action button clicked")}}
         />
       </View>
     );
