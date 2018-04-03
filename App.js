@@ -5,11 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Button
-} from 'react-native';
+import {View, Button} from 'react-native';
 import SnackBar from "./app/SnackBar";
 import {SnackBarTime} from "./app/util";
 
@@ -20,7 +16,7 @@ export default class App extends Component<Props> {
     if (this.ele.isActive()) {
       this.ele.dismiss();
     } else {
-      this.ele.show({duration: SnackBarTime.INDEFINITE});
+      this.ele.show({duration: SnackBarTime.LONG});
     }
   };
 
@@ -28,29 +24,12 @@ export default class App extends Component<Props> {
     return (
       <View style={{flex: 1, marginTop: 72}}>
         <Button title={"Click"} onPress={this.toggleSnackBar}/>
-        <SnackBar onRef={ele => this.ele = ele}/>
+        <SnackBar
+          onRef={ele => this.ele = ele}
+          message={"This is a simple test"}
+          action={"COOL"}
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  circle: {
-    bottom: 0,
-    right: 0,
-    left: 0,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    position: 'absolute',
-    shadowRadius: 4,
-    shadowOpacity: 0.2,
-    borderTopWidth: 2,
-    borderTopColor: 'red',
-    height: 100
-  }
-});

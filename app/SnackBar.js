@@ -25,28 +25,24 @@ export default class SnackBar extends Component {
       active: false
     };
 
-    this._val = {x: 0, y: 0};
-    this.state.transform.addListener((value) => this._val = value);
-
     // Initialize PanResponder with move handling
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gesture) => true,
       onPanResponderMove: Animated.event([
         null, {dx: this.state.transform.x}
       ]),
-      // adjusting delta value
       onPanResponderRelease: (e, gesture) => {
         let position = {x: 0, y: 0};
         let shouldDismiss = gesture.moveX > Screen.width / 1.5;
         if (shouldDismiss) {
           position.x = Screen.width + 100;
         }
-        
+
         Animated.spring(this.state.transform, {
           toValue: position,
           friction: 4
         }).start(() => {
-           if (shouldDismiss) this.dismiss();
+          if (shouldDismiss) this.dismiss();
         });
       }
     });
@@ -91,7 +87,7 @@ export default class SnackBar extends Component {
   }
 
   render() {
-    let {message, action, onAction, messageStyles, actionTextStyles} = this.state;
+    let {message, action, onAction, messageStyles, actionTextStyles} = this.props;
     let actionLayout = null;
     if (action) {
       actionLayout = (
