@@ -9,6 +9,7 @@ import {
   Dimensions
 } from 'react-native';
 import {SnackBarTime} from './util';
+import PropTypes from 'prop-types';
 
 const Screen = {
   width: Dimensions.get('window').width,
@@ -113,6 +114,12 @@ export default class SnackBar extends Component {
     );
   }
 }
+
+SnackBar.propTypes = {
+  message: PropTypes.string.isRequired,
+  action: PropTypes.string,
+  onAction: PropTypes.func
+};
 
 const styles = StyleSheet.create({
   message: {
