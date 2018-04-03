@@ -1,6 +1,6 @@
 {
-  "name": "SnackBar",
-  "version": "1.0.0",
+  "name": "react-native-javascript-snackbar",
+  "version": "1.0.1",
   "main": "/app/SnackBar.js",
   "scripts": {
     "test": "jest"

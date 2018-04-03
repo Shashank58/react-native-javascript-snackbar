@@ -6,9 +6,7 @@
 
 import React, {Component} from 'react';
 import {View, Button} from 'react-native';
-import SnackBar from "./app/SnackBar";
-import {SnackBarTime} from "./app/util";
-
+import {SnackBar, SnackBarTime} from "./app/SnackBar";
 
 export default class App extends Component<Props> {
 
@@ -26,8 +24,8 @@ export default class App extends Component<Props> {
         <Button title={"Click"} onPress={this.toggleSnackBar}/>
         <SnackBar
           onRef={ele => this.ele = ele}
-          message={"This is a simple test"}
-          action={"COOL"}
+          message="This is a simple test"
+          action="COOL"
           messageStyles={{color: "green"}}
           actionTextStyles={{fontSize: 16}}
           onAction={() => {console.log("Action button clicked")}}

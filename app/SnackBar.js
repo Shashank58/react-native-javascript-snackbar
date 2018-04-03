@@ -8,14 +8,12 @@ import {
   PanResponder,
   Dimensions
 } from 'react-native';
-import {SnackBarTime} from './util';
 import PropTypes from 'prop-types';
 
 const Screen = {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height
 };
-
 
 export default class SnackBar extends Component {
 
@@ -60,10 +58,10 @@ export default class SnackBar extends Component {
     this.state.transform.removeAllListeners();
   }
 
-  show({ duration, title, action, onAction }) {
+  show({ duration }) {
     if (this.state.active) return;
 
-    this.setState({title, action, onAction, active: true});
+    this.setState({active: true});
     Animated.timing(
       this.state.transform, {
         toValue: {x: 0, y: 0},
@@ -159,3 +157,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
   }
 });
+
+const SnackBarTime = {
+  LONG: 4000,
+  SHORT: 2000,
+  INDEFINITE: -1
+};
+
+module.exports = {
+  SnackBar,
+  SnackBarTime
+};;
