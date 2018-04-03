@@ -37,17 +37,19 @@ export default class SnackBar extends Component {
       // adjusting delta value
       onPanResponderRelease: (e, gesture) => {
         let position = {x: 0, y: 0};
-        if (gesture.moveX > Screen.width / 1.5) {
+        let shouldDismiss = gesture.moveX > Screen.width / 1.5;
+        if (shouldDismiss) {
           position.x = Screen.width + 100;
         }
         
         Animated.spring(this.state.transform, {
           toValue: position,
           friction: 4
-        }).start();
+        }).start(() => {
+           if (shouldDismiss) this.dismiss();
+        });
       }
     });
-    console.log(Screen.width);
   }
 
   componentDidMount() {
@@ -89,16 +91,16 @@ export default class SnackBar extends Component {
   }
 
   render() {
-    let {title, action, onAction} = this.state;
+    let {message, action, onAction, messageStyles, actionTextStyles} = this.state;
     let actionLayout = null;
     if (action) {
       actionLayout = (
         <TouchableWithoutFeedback onPress={() => {
           this.dismiss();
-          onAction();
+          if (onAction) onAction();
         }}>
           <View style={styles.actionContainer}>
-            <Text style={styles.action}>{action}</Text>
+            <Text style={[styles.action, actionTextStyles]}>{action}</Text>
           </View>
         </TouchableWithoutFeedback>
       );
@@ -107,54 +109,42 @@ export default class SnackBar extends Component {
     return (
       <Animated.View
         {...this.panResponder.panHandlers}
-        style={[{transform: this.state.transform.getTranslateTransform()}, styles.circle]}
-      />
+        style={[{transform: this.state.transform.getTranslateTransform()}, styles.snackBarContainer]}
+      >
+        <Text style={[styles.message, messageStyles]}>{message}</Text>
+        {actionLayout}
+      </Animated.View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  snackBar: {
-    bottom: 0,
-    right: 0,
-    left: 0,
-    height: 45,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    position: 'absolute',
-    shadowRadius: 4,
-    shadowOpacity: 0.2,
-    borderTopWidth: 2,
-    borderTopColor: 'red'
-  },
-  title: {
-    marginLeft: 16,
-    marginRight: 16,
-    marginTop: 16,
-    color: '#2f363f',
+  message: {
+    flex: 1,
+    marginLeft: 24,
+    marginRight: 24,
+    marginTop: 14,
+    marginBottom: 14,
+    color: 'white',
     fontSize: 14,
-    lineHeight: 14 * 1.4
+    lineHeight: 14 * 1.4,
   },
   actionContainer: {
-    padding: 12,
-    marginLeft: 4,
-    marginBottom: 4
+    justifyContent: 'center'
   },
   action: {
     color: '#1f7ae0',
     fontWeight: 'bold',
-    fontSize: 14
+    fontSize: 14,
+    alignSelf: 'center',
+    marginRight: 24,
   },
-  circle: {
+  snackBarContainer: {
+    flexDirection: 'row',
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: 'black',
+    backgroundColor: '#323232',
     justifyContent: 'center',
     shadowColor: '#000000',
     shadowOffset: {
@@ -164,8 +154,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     shadowRadius: 4,
     shadowOpacity: 0.2,
-    borderTopWidth: 2,
-    borderTopColor: 'red',
-    height: 100
   }
 });

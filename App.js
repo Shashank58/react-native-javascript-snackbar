@@ -26,8 +26,8 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Button title={"Click"} style={{bottom: 0}} onPress={this.toggleSnackBar}/>
+      <View style={{flex: 1, marginTop: 72}}>
+        <Button title={"Click"} onPress={this.toggleSnackBar}/>
         <SnackBar onRef={ele => this.ele = ele}/>
       </View>
     );
