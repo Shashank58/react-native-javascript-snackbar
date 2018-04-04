@@ -4,7 +4,7 @@ A cross-platform javascript based snackbar for react-native
 
 Installation
 
-    npm install react-native-snackbar --save
+    npm install react-native-javascript-snackbar --save
 
 Example usage
 
