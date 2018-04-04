@@ -21,7 +21,10 @@ export default class SnackBar extends Component {
     super();
     this.state = {
       transform: new Animated.ValueXY({x: 0, y: 800}),
-      active: false
+      active: false,
+      message: '',
+      action: '',
+      onAction: null
     };
 
     // Initialize PanResponder with move handling
@@ -58,10 +61,10 @@ export default class SnackBar extends Component {
     this.state.transform.removeAllListeners();
   }
 
-  show({ duration }) {
+  show({ duration, message, action, onAction }) {
     if (this.state.active) return;
 
-    this.setState({active: true});
+    this.setState({message, action, onAction, active: true});
     Animated.timing(
       this.state.transform, {
         toValue: {x: 0, y: 0},
@@ -82,11 +85,12 @@ export default class SnackBar extends Component {
         toValue: {x: 0, y: 800},
         duration: 300,
       }
-    ).start(() => this.setState({active: false}));
+    ).start(() => this.setState({message: '', action: '', onAction: null, active: false}));
   }
 
   render() {
-    let {message, action, onAction, messageStyles, actionTextStyles} = this.props;
+    const {messageStyles, actionTextStyles} = this.props;
+    const {message, action, onAction} = this.state;
     let actionLayout = null;
     if (action) {
       actionLayout = (
