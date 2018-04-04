@@ -22,11 +22,8 @@ Example usage
       return (
         <SnackBar
           onRef={ele => this.ele = ele}
-          message="This is a simple test"
-          action="COOL"
           messageStyles={{color: "green"}}
           actionTextStyles={{fontSize: 16}}
-          onAction={() => {console.log("Action button clicked")}}
         />
       );
     }
@@ -43,7 +40,7 @@ Available props
 
 Methods
 
-    show({duration: Number}): Duration options are SnackBarTime.LONG, SnackBarTime.SHORT, SnackBarTime.INDEFINITE
+    show({duration: Number, message: String, action: String, onAction: func}): Duration options are SnackBarTime.LONG, SnackBarTime.SHORT, SnackBarTime.INDEFINITE
                               (You need to call dismiss() on your own if INDEFINITE)
 
     dismiss(): For dismissing the snackbar
