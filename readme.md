@@ -32,11 +32,8 @@ Make sure you keep snackbar in the bottom of your parent view container
 
 Available props
 
-    message: Message to be displayed in snackbar
-    action: Action text, if needed
     messageStyles: Styling for message text
     actionTextStyles: Styling for action text
-    onAction: Function that is called when action is clicked
 
 Methods
 
