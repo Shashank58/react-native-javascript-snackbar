@@ -5,9 +5,7 @@
   "scripts": {
     "test": "jest"
   },
-  "dependencies": {
-    "prop-types": "^15.6.1"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shashank58/react-native-snackbar.git"

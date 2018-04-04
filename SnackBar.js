@@ -8,14 +8,13 @@ import {
   PanResponder,
   Dimensions
 } from 'react-native';
-import PropTypes from 'prop-types';
 
 const Screen = {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height
 };
 
-export default class SnackBar extends Component {
+class SnackBar extends Component {
 
   constructor() {
     super();
@@ -116,12 +115,6 @@ export default class SnackBar extends Component {
     );
   }
 }
-
-SnackBar.propTypes = {
-  message: PropTypes.string.isRequired,
-  action: PropTypes.string,
-  onAction: PropTypes.func
-};
 
 const styles = StyleSheet.create({
   message: {
